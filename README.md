@@ -15,11 +15,17 @@ This is a simple Discord bot I created in JavaScript with [this tutorial](https:
 
 ###### Linux
 
+Open up a terminal and run the following commands:
 ```
 sudo apt install nodejs
 sudo apt install npm
 npm i dotenv
+npm i discord-tts
+npm i @discordjs/opus
 npm install discord.js
+npm install @discordjs/voice
+npm install libsodium-wrappers
+npm install ffmpeg
 ```
 
 ###### Windows
@@ -29,7 +35,12 @@ After the installer finishes make sure the install has been added to path by che
 In the directory for your project with your package.json in it, run the following commands:
 ```
 npm i dotenv
+npm i discord-tts
+npm i @discordjs/opus
 npm install discord.js
+npm install @discordjs/voice
+npm install libsodium-wrappers
+npm install ffmpeg
 ```
 Create a `.env` file in the working directory and paste in the following line of code with your API key applied to the correct location:
 ```
@@ -47,7 +58,8 @@ node main.js
 
 * Make sure you add the dotenv package and discord.js install in the same directory as your package.json for the project.
 * API key in the .env file needs to be in the format `<TOKEN_NAME>=<API key>`.
-* Make sure node and 
+* Make sure node and npm are added to path
+* If you get `SyntaxError: Cannot use import statement outside a module` then make sure you add `"type": "module"` to `package.json`.
 
 ## Author
 
