@@ -10,6 +10,11 @@ This is a simple Discord bot I created in JavaScript with [this tutorial](https:
 * npm >= 7.0.0
 * discord.js >= v13.5.1
 * dotenv >= v12.0.0
+* ffmpeg >= v4.4.1
+* libsodium-wrappers >= v0.7.9
+* @discordjs/opus >= v0.5.3",
+* @discordjs/voice >= v0.7.5",
+* discord-tts >= v1.2.1"
 
 ### Installing
 
@@ -19,13 +24,7 @@ Open up a terminal and run the following commands:
 ```
 sudo apt install nodejs
 sudo apt install npm
-npm i dotenv
-npm i discord-tts
-npm i @discordjs/opus
-npm install discord.js
-npm install @discordjs/voice
-npm install libsodium-wrappers
-npm install ffmpeg
+npm ci (or "npm install")
 ```
 
 ###### Windows
@@ -34,13 +33,7 @@ Download and run the msi installer from the [official website](https://nodejs.or
 After the installer finishes make sure the install has been added to path by checking the version `node -v` and `npm -v`.
 In the directory for your project with your package.json in it, run the following commands:
 ```
-npm i dotenv
-npm i discord-tts
-npm i @discordjs/opus
-npm install discord.js
-npm install @discordjs/voice
-npm install libsodium-wrappers
-npm install ffmpeg
+npm ci (or "npm install")
 ```
 Create a `.env` file in the working directory and paste in the following line of code with your API key applied to the correct location:
 ```
@@ -67,6 +60,8 @@ node main.js
 
 ## Version History
 
+* 0.2
+    * Added text to speach for the "no-mic-corner" into a voice channel
 * 0.1
     * Initial Release
 
