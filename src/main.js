@@ -3,7 +3,7 @@ Discord bot tutorial
 https://www.freecodecamp.org/news/create-a-discord-bot-with-javascript-nodejs/
 */
 
-import { Client, Intents } from 'discord.js'
+import { Client, Intents, VoiceState } from 'discord.js'
 import {
 	joinVoiceChannel,
 	createAudioResource,
@@ -11,9 +11,11 @@ import {
 	StreamType,
 	VoiceConnectionStatus,
   AudioPlayer,
+  getVoiceConnection,
 } from '@discordjs/voice';
 import dotenv from 'dotenv'
 import discordTTS from 'discord-tts'
+
 
 // load .env file into an environment variable
 dotenv.config();
@@ -28,12 +30,13 @@ const client = new Client({ intents:
 });
 
 /*
-* Args: discord voice channel
-* Return: connection to voice channel
+* @param : discord voice channel
+* @return : connection to voice channel
 *
 * Creates a connection to the provided voice channel and connects to it.
 */
 function connectToChannel(voiceChannel){
+  // setup voice channel connection
 	const connection = joinVoiceChannel({
     channelId: voiceChannel.id,
     guildId: voiceChannel.guild.id,
@@ -41,12 +44,16 @@ function connectToChannel(voiceChannel){
   });
 
 	try{
+    // attempt connection
 		entersState(connection, VoiceConnectionStatus.Ready, 30e3);
     console.log("[" + new Date().toLocaleString() + "] connected to voice channel")
+
 		return connection;
 	}catch(error){
-		connection.destroy();
+    // end connection on failure
+    getVoiceConnection(voiceChannel).disconnect()
     console.log("[" + new Date().toLocaleString() + "] could not connect to voice channel");
+    
 		throw error;
 	}
 }
@@ -61,19 +68,26 @@ client.on("ready", () => {
 client.on("message", msg => {
 
   if(msg.channel.name === "no-mic-corner" && msg.member.displayName != "D.A.D.Bot"){
+    // get voice channel that the user is in
     let voiceChannel = msg.member.voice.channel;
 
     let audioPlayer = new AudioPlayer();
 
     if(voiceChannel){
 			try{
+        // attempt connection to channel
 				const connection = connectToChannel(voiceChannel);
-        const stream=discordTTS.getVoiceStream(msg.member.displayName + " says " + msg.content);
+
+        // translate message into speach
+        const stream = discordTTS.getVoiceStream(msg.member.displayName + " says " + msg.content);
+
+        // create audio resource from tts message
         const audioResource = createAudioResource(stream, {inputType: StreamType.Arbitrary, inlineVolume:true});
         
         if(connection.status === VoiceConnectionStatus.Connected){
-            connection.subscribe(audioPlayer);
-            audioPlayer.play(audioResource);
+          // grab the audio player and play the message
+          connection.subscribe(audioPlayer);
+          audioPlayer.play(audioResource);
         }
 			}catch(error){
 				console.error(error);
@@ -81,7 +95,7 @@ client.on("message", msg => {
 		}else{
 			msg.reply('You need to join a voice channel first.');
 		}
-    //TODO: add timout for inactivity to have the bot leave the channel after inactivity
+    //TODO: add timout for inactivity to have the bot leave the channel after a set period of time with no tts messages
   }
 
   // replies with a "pong"
