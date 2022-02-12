@@ -16,9 +16,9 @@ This is a simple Discord bot I created in JavaScript with [this tutorial](https:
 * @discordjs/voice >= v0.7.5",
 * discord-tts >= v1.2.1"
 
-### Installing
+## Installing
 
-###### Linux
+### Linux
 
 Open up a terminal and run the following commands:
 ```
@@ -27,7 +27,7 @@ sudo apt install npm
 npm ci (or "npm install")
 ```
 
-###### Windows
+### Windows
 
 Download and run the msi installer from the [official website](https://nodejs.org/en/), which comes with node and npm together.
 After the installer finishes make sure the install has been added to path by checking the version `node -v` and `npm -v`.
@@ -60,9 +60,11 @@ node main.js
 
 ## Version History
 
-* 0.2
+* 0.2.1
+    * Added ability for the bot to leave the voice channel after ten minutes of inactivity
+* 0.2.0
     * Added text to speach for the "no-mic-corner" into a voice channel
-* 0.1
+* 0.1.0
     * Initial Release
 
 ## License
