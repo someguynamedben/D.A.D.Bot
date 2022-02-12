@@ -12,6 +12,7 @@ import {
 	VoiceConnectionStatus,
   AudioPlayer,
   getVoiceConnection,
+  VoiceConnection,
 } from '@discordjs/voice';
 import dotenv from 'dotenv'
 import discordTTS from 'discord-tts'
@@ -31,7 +32,7 @@ const client = new Client({ intents:
 
 /*
 * @param : discord voice channel
-* @return : connection to voice channel
+* @return: connection to voice channel
 *
 * Creates a connection to the provided voice channel and connects to it.
 */
@@ -51,12 +52,50 @@ function connectToChannel(voiceChannel){
 		return connection;
 	}catch(error){
     // end connection on failure
-    getVoiceConnection(voiceChannel).disconnect()
+    connection.disconnect()
     console.log("[" + new Date().toLocaleString() + "] could not connect to voice channel");
     
 		throw error;
 	}
 }
+
+let isTimerOn = false;  // inactivity timeout
+let timeoutInterval;    // timer
+
+/*
+* @param : voice connection
+*
+* Disconnects the bot from the voice channel after 10 minutes of inactivity
+*/
+function timeoutCounter(connection){
+  timeoutInterval = setTimeout(() => {
+    console.log("[" + new Date().toLocaleString() + "] Disconnecting from voice channel due to inactivity.");
+    connection.disconnect();    
+  }, 60000);  // 10 minutes
+}
+
+/*
+* @param : voice connection
+*
+* Starts voice connection timeout for inactivity
+*/
+function startTimeout(connection){
+  if(!isTimerOn){
+    isTimerOn = true;
+    // start counting the timeout
+    timeoutCounter(connection);
+  }
+}
+
+/*
+* Stops voice connection timeout for inactivity
+*/
+function stopTimeout(){
+  clearTimeout(timeoutInterval);
+  isTimerOn = false;
+}
+
+
 
 // client ready check
 client.on("ready", () => {
@@ -67,7 +106,7 @@ client.on("ready", () => {
 // when a user sends a message check message content for commandss
 client.on("message", msg => {
 
-  if(msg.channel.name === "no-mic-corner" && msg.member.displayName != "D.A.D.Bot"){
+  if(msg.channel.name === "no-mic-corner" && msg.member.id != msg.guild.me.id){
     // get voice channel that the user is in
     let voiceChannel = msg.member.voice.channel;
 
@@ -88,6 +127,12 @@ client.on("message", msg => {
           // grab the audio player and play the message
           connection.subscribe(audioPlayer);
           audioPlayer.play(audioResource);
+          
+          // clear timeout if already counting
+          stopTimeout();
+
+          // Start counting inactivity
+          startTimeout(connection);
         }
 			}catch(error){
 				console.error(error);
@@ -95,12 +140,10 @@ client.on("message", msg => {
 		}else{
 			msg.reply('You need to join a voice channel first.');
 		}
-    //TODO: add timout for inactivity to have the bot leave the channel after a set period of time with no tts messages
   }
 
   // replies with a "pong"
   if(msg.content === "!ping"){
-    // msg.messageCreate
     msg.reply("pong");
   }
 
