@@ -71,7 +71,7 @@ function timeoutCounter(connection){
   timeoutInterval = setTimeout(() => {
     console.log("[" + new Date().toLocaleString() + "] Disconnecting from voice channel due to inactivity.");
     connection.disconnect();    
-  }, 60000);  // 10 minutes
+  }, 600000);  // 10 minutes
 }
 
 /*
