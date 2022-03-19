@@ -1,7 +1,9 @@
 {
+  "name": "dadbot",
   "dependencies": {
     "@discordjs/opus": "^0.5.3",
     "@discordjs/voice": "^0.7.5",
+    "csv-parse": "^5.0.4",
     "discord-tts": "^1.2.1",
     "discord.js": "^13.5.1",
     "dotenv": "^12.0.0",

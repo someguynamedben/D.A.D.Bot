@@ -3,7 +3,7 @@ Discord bot tutorial
 https://www.freecodecamp.org/news/create-a-discord-bot-with-javascript-nodejs/
 */
 
-import { Client, Intents, VoiceState } from 'discord.js'
+import { Client, Intents, MessagePayload, VoiceState } from 'discord.js'
 import {
 	joinVoiceChannel,
 	createAudioResource,
@@ -16,6 +16,7 @@ import {
 } from '@discordjs/voice';
 import dotenv from 'dotenv'
 import discordTTS from 'discord-tts'
+import { selectRandomAnime } from './anime-selector';
 
 
 // load .env file into an environment variable
@@ -156,6 +157,30 @@ client.on("message", msg => {
   // returns code repo
   if(msg.content === "!repo"){
     msg.reply("Feel free to submit a pull request!\nhttps://github.com/someguynamedben/D.A.D.Bot");
+  }
+
+  // Select a random anime from the anime-list.csv file
+  if (msg.content === '!anime') {
+    const flavorMessages = [
+      '_May God have mercy on your soul._',
+      `_I'm not sure what to say._`,
+      `_${msg.author.username} may have bribed me to pick this one..._`,
+    ]
+    selectRandomAnime().then(anime => {
+      if (anime.isError) {
+        msg.reply(new MessagePayload(msg.channel, {
+          content: `Whoops, I couldn't figure out what anime to pick...\n`
+            + `So fuck it, just watch ${anime.title} instead.\n`
+            + `${anime.url}`
+        }));
+      } else {
+        msg.reply(new MessagePayload(msg.channel, {
+          content: `Your randomly suggested anime is ${anime.title}.\n`
+            + `${anime.url}\n`
+            + `${flavorMessages[Math.floor(Math.random() * flavorMessages.length)]}`,
+        }));
+      }
+    });
   }
 
   // replies with a list of commands and a brief description
