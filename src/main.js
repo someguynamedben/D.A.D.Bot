@@ -143,11 +143,6 @@ client.on("message", msg => {
 		}
   }
 
-  // replies with a "pong"
-  if(msg.content === "!ping"){
-    msg.reply("pong");
-  }
-
   // replies with an image of an AI generated anime girl (results may vary)
   if(msg.content === "!waifu"){
     let seed = Math.floor(Math.random() * 99999)
@@ -185,7 +180,7 @@ client.on("message", msg => {
 
   // replies with a list of commands and a brief description
   if(msg.content === "!commands"){
-    msg.reply("Command list: ```!ping  :  pongs your ping.\n!waifu :  AI generated waifu.\n!repo  :  D.A.D.Bot's repository.```\nAlso messages sent in the #no-mic-corner channel will be read out with TTS in the voice channel you're in.");
+    msg.reply("Command list: ```!anime :  Random Crunchyroll anime.\n!waifu :  AI generated waifu.\n!repo  :  D.A.D.Bot's repository.```\nAlso messages sent in the #no-mic-corner channel will be read out with TTS in the voice channel you're in.");
   }
 })
 
