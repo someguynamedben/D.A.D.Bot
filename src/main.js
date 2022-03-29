@@ -16,7 +16,7 @@ import {
 } from '@discordjs/voice';
 import dotenv from 'dotenv'
 import discordTTS from 'discord-tts'
-import { selectRandomAnime } from './anime-selector';
+import { selectRandomAnime } from './anime-selector.js';
 
 
 // load .env file into an environment variable
@@ -160,7 +160,7 @@ client.on("message", msg => {
   }
 
   // Select a random anime from the anime-list.csv file
-  if (msg.content === '!anime') {
+  if(msg.content === '!anime'){
     const flavorMessages = [
       '_May God have mercy on your soul._',
       `_I'm not sure what to say._`,
@@ -173,7 +173,7 @@ client.on("message", msg => {
             + `So fuck it, just watch ${anime.title} instead.\n`
             + `${anime.url}`
         }));
-      } else {
+      }else{
         msg.reply(new MessagePayload(msg.channel, {
           content: `Your randomly suggested anime is ${anime.title}.\n`
             + `${anime.url}\n`
