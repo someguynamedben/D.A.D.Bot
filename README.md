@@ -6,15 +6,15 @@ This is a simple Discord bot I created in JavaScript with [this tutorial](https:
 
 ### Dependencies
 
-* node.js >= v14.0.0
-* npm >= 7.0.0
-* discord.js >= v13.5.1
-* dotenv >= v12.0.0
-* ffmpeg >= v4.4.1
-* libsodium-wrappers >= v0.7.9
-* @discordjs/opus >= v0.5.3",
-* @discordjs/voice >= v0.7.5",
-* discord-tts >= v1.2.1"
+* "@discordjs/opus": "^0.5.3",
+* "@discordjs/voice": "^0.7.5",
+* "csv-parse": "^5.0.4",
+* "discord-tts": "^1.2.1",
+* "discord.js": "^13.5.1",
+* "dotenv": "^12.0.0",
+* "ffmpeg": "^0.0.4",
+* "ffmpeg-static": "^4.4.1",
+* "libsodium-wrappers": "^0.7.9"
 
 ## Installing
 
@@ -60,6 +60,8 @@ node main.js
 
 ## Version History
 
+* 0.3.0
+    * Added random anime selection feature
 * 0.2.1
     * Added ability for the bot to leave the voice channel after ten minutes of inactivity
 * 0.2.0
