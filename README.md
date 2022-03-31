@@ -60,6 +60,8 @@ node main.js
 
 ## Version History
 
+* 0.3.1
+    * Refactored TTS logic and fixed depreciated message warnings
 * 0.3.0
     * Added random anime selection feature
 * 0.2.1
