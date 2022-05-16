@@ -9,7 +9,12 @@ import dotenv from 'dotenv'
 import discordTTS from 'discord-tts'
 import { connectToChannel, startTimeout, stopTimeout } from './textToSpeech.js';
 import { selectRandomAnime } from './anime-selector.js';
+import launchRPG from './rpg/start.js'
 
+
+const commands = ["!play", "!commands", "!anime", "!waifu", "!repo"];
+
+let RPGPlayers = {};
 
 // load .env file into an environment variable
 dotenv.config();
@@ -30,6 +35,24 @@ client.on("ready", () => {
 
 // when a user sends a message check message content for commandss
 client.on("messageCreate", msg => {
+
+  if(msg.channel.name === "tbd" && msg.member.id != msg.guild.me.id && msg.content === "!play"){
+    // check if not in list of players
+    if(!(msg.member.id in RPGPlayers)){
+      console.log(`[` + new Date().toLocaleString() + `] !play : Player does not exist. Creating player.`)
+      RPGPlayers[msg.member.id] = 0;
+    }
+
+    if(!RPGPlayers[msg.member.id]){   // 0 if not playing, 1 if playing
+      RPGPlayers[msg.member.id] = 1;
+
+      if(!commands.includes(msg.content, 1)){
+        // launch game
+        launchRPG(client);
+        console.log(`[` + new Date().toLocaleString() + `] !play : Game launched for user ` + msg.member.id);
+      }
+    }
+  }
 
   if(msg.channel.name === "no-mic-corner" && msg.member.id != msg.guild.me.id){
     // get voice channel that the user is in
@@ -80,7 +103,7 @@ client.on("messageCreate", msg => {
   // returns code repo
   if(msg.content === "!repo"){
     msg.channel.send("Feel free to submit a pull request!\nhttps://github.com/someguynamedben/D.A.D.Bot")
-      .then(() => console.log(`[` + new Date().toLocaleString() + `] !repo : sent repo link.`))
+      .then(() => console.log(`[` + new Date().toLocaleString() + `] !repo : Sent repo link.`))
       .catch(console.error);
   }
 
