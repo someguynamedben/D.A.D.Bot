@@ -9,6 +9,7 @@ class Character {
         this.int = int;     // Javascript isn't typed lul
         this.stlth = stlth;
         this.spd = spd;
+        const inv = new Inventory();
     }
 
     levelUp(){}
