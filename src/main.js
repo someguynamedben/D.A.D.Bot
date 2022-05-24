@@ -14,7 +14,7 @@ import launchRPG from './rpg/start.js'
 
 const commands = ["!play", "!commands", "!anime", "!waifu", "!repo"];
 
-let RPGPlayers = {};
+export let RPGPlayers = {};
 
 // load .env file into an environment variable
 dotenv.config();
